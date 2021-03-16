@@ -1,25 +1,33 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.shortcuts import render
 from django.urls import reverse
 import os 
 from .models import User, auct_list
 from django import forms
 from django.forms.widgets import ClearableFileInput
+from datetime import datetime
+
+
 
 
 class NewItemForm(forms.ModelForm):
+    name_act = forms.CharField(label="Name") 
+    price_act = forms.FloatField(label="Price")
     picture_act = forms.ImageField(widget=ClearableFileInput, label="Image")
+    date_act = forms.DateTimeField(disabled = True, initial=datetime.now(), label = "Date", widget=forms.HiddenInput())
+    desc_act = forms.CharField( widget=forms.Textarea, label="Description")
     
+
     class Meta:
         model = auct_list
-        fields = '__all__'#['name_act', 'price_act', 'desc_act', 'picture_act']
-        labels = {
-            'name_act':'Name product',
-            'price_act':'Price',
-            'desc_act':'Description'
-        }
+        fields = "__all__"
+        labels = {'categ_act': "Categoria"}
+
+class NewForm(forms.Form):
+
+    nada = forms.CharField()
         
 
 
@@ -83,20 +91,21 @@ def register(request):
 
 
 def add(request):
-    if request.method == "POT":
-        
+    if request.method == "POST":
         form = NewItemForm(request.POST, request.FILES)
-        if form.is_valid:
+        if form.is_valid():
             form.save()
+            
+            return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "auctions/add.html",{
                 "form": form,
                 "faled": 'fail'
             })
-        pass
     if not request.user.is_authenticated:
-        HttpResponseRedirect('/login/')
+        return HttpResponseRedirect('/login')
     else:
+        new_form = NewItemForm()
         return render(request, "auctions/add.html",{
-            "form": NewItemForm()
+            "form": new_form
         })

@@ -2,7 +2,15 @@
 
 {% block body %}
 
-    <form action="{% url 'add' %}" method="POST">
+{% if faled %}
+
+<div class="alert alert-danger" role="alert" style="width: 80%;">
+    Fail!!!!!
+</div>
+
+{% endif %}
+
+    <form action="{% url 'add' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{form}}
         <input type="submit" value="Adicionar">
