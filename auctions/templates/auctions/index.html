@@ -1,21 +1,25 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
+    <main class="p-3 h-100 bg-light ">
+        <h2 class="m-2">Active Listings</h2>
 
-    <div class="card-deck d-flex flex-wrap" >
-       {% for auct in aucts %}
-
-       <a href="#">
-        <div class="card row" style="width: 18rem; margin-bottom: 30px;">
-            <img class="card-img-top" src="media/{{auct.picture_act}}" alt="{{auct.name_act}}">
-            <div class="card-body">
-                <h5 class="card-title">{{auct.name_act}}</h5>
-                <h6 class="card-text">Price: $ {{auct.price_act}}</h6>   
-                <p class="card-text"><small class="text-muted">{{auct.date_act}}</small></p>
-            </div>
+        <div class="row row-cols-1 row-cols-md-3 g-4" >
+        {% for auct in aucts %}
+            <a href="#" style="text-decoration: none; color: black;"  >
+                <div class="col">
+                    <div class="card shadow-hover" style="transition: 400ms;">
+                        <img src="media/{{auct.picture_act}}" class="card-img-top" alt="{{auct.name_act}}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{auct.name_act}}</h5>
+                            <h6 class="card-text">Price: $ {{auct.price_act}}</h6>
+                            <p class="card-text"><small class="text-muted">{{auct.date_act}}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
         </div>
-        </a>
-       {% endfor %}
-    </div>
+    </main>
+    
 {% endblock %}

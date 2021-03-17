@@ -5,29 +5,15 @@ from django.shortcuts import render
 from django.urls import reverse
 import os 
 from .models import User, auct_list
-from django import forms
 from django.forms.widgets import ClearableFileInput
 from datetime import datetime
+from . import forms
 
 
 
 
-class NewItemForm(forms.ModelForm):
-    name_act = forms.CharField(label="Name") 
-    price_act = forms.FloatField(label="Price")
-    picture_act = forms.ImageField(widget=ClearableFileInput, label="Image")
-    date_act = forms.DateTimeField(disabled = True, initial=datetime.now(), label = "Date", widget=forms.HiddenInput())
-    desc_act = forms.CharField( widget=forms.Textarea, label="Description")
-    
 
-    class Meta:
-        model = auct_list
-        fields = "__all__"
-        labels = {'categ_act': "Categoria"}
 
-class NewForm(forms.Form):
-
-    nada = forms.CharField()
         
 
 
@@ -92,7 +78,7 @@ def register(request):
 
 def add(request):
     if request.method == "POST":
-        form = NewItemForm(request.POST, request.FILES)
+        form = forms.NewItemForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             
@@ -105,7 +91,7 @@ def add(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/login')
     else:
-        new_form = NewItemForm()
+        new_form = forms.NewItemForm()
         return render(request, "auctions/add.html",{
             "form": new_form
         })
