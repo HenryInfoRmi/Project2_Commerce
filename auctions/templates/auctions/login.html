@@ -12,9 +12,9 @@
             </div>
             <div class="card-body">
               <blockquote class="blockquote mb-0">
-                <form action="{% url 'login' %}" method="post">
+                <form action="{% url 'login' %}" method="post" class="p-5">
                     <div class="d-flex justify-content-center h-100 mb-4">
-                        <img src="media/media/bust.png" alt="User" style="width: 20%;">
+                        <img src="media/media/bust.png" alt="User" style="width: 20%; border-radius: 100px; background-color: gray;">
                     </div>
                     {% csrf_token %}
                     {% if message %}

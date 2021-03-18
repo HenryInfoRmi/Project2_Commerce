@@ -11,12 +11,13 @@ class category(models.Model):
         return f"{self.name_cat}"
 
 class auct_list(models.Model):
+    name_user = models.IntegerField()
     name_act = models.CharField(max_length=100)
     price_act = models.FloatField()
     picture_act = models.ImageField(upload_to="media/", blank=True)
     date_act = models.DateTimeField()
     desc_act = models.CharField(max_length=1000)
-    categ_act = models.ForeignKey(category, on_delete=models.CASCADE, related_name="cat")
+    categ_act = models.IntegerField()
 
     def __str__(self):
         return f"{self.name_act}, {self.price_act}, {self.picture_act}, {self.date_act}, {self.desc_act}"
